@@ -9,29 +9,34 @@ This package produces a button that closes all subplots upon click.
 .. codeauthor:: Oliver James Hall <ojh251@student.bham.ac.uk>
 """
 
-import matplotlob.pyplot as plt
+import matplotlib.pyplot as plt
 from matplotlib.widgets import Button
 
-def close_plots():
-    '''
-    A function that plots a button to instantly close all subplots. Useful when
-    plotting a large number of comparisons.
+def show():
+        '''
+        A class that plots a button to instantly close all subplots. Useful when
+        plotting a large number of comparisons.
 
-    Returns:
-        matplotlib.figure.Figure: 1 by 1 plot containing a 'close all' button.
+        Returns:
+            matplotlib.figure.Figure: 2 by 1 plot containing a 'close all' button.
 
-        matplotlib.widgets.Button: A button widget required for button function.
+            matplotlib.widgets.Button: A button widget required for button function.
+        '''
+        fig, ax = plt.subplots(figsize=(2,1))   #Build the plot with button
+        ax.get_xaxis().set_visible(False)
+        ax.get_yaxis().set_visible(False)
 
-    '''
-    fig, ax = plt.subplots(figsize=(1,1))
-    ax.get_xaxis().set_visible(False)
-    ax.get_yaxis().set_visible(False)
+        closeax =plt.axes([0.1,0.1,0.8,0.8])    #Define button axes
 
-    closeax =plt.axes([0.1,0.1,0.8,0.8])
+        #Build the button
+        button = Button(closeax, 'Close Plots', color='white', hovercolor='r')
 
-    button = Button(closeax, 'Close Plots', color='white', hovercolor='r')
-    return fig, button
+        #When clicked, call the close() function
+        button.on_clicked(close)
+
+        #Display all graph
+        plt.show()
 
 def close(event):
-    ''' A simple plt.close('all') function for use with close_plots().'''
+    ''' A simple plt.close('all') function called on click.'''
     plt.close('all')
